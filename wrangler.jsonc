@@ -1,0 +1,56 @@
+{
+  // ==========================================================================
+  // Jira MCP Server - Wrangler Configuration
+  // ==========================================================================
+  //
+  // MULTI-TENANT ARCHITECTURE:
+  // This server supports multiple tenants. Credentials are passed via request
+  // headers, NOT stored as wrangler secrets. This allows a single deployment
+  // to serve multiple customers.
+  //
+  // Required Headers:
+  // - X-Jira-Domain: Your Jira Cloud domain (e.g., "mycompany" for mycompany.atlassian.net)
+  // - X-Jira-Email: User email for authentication
+  // - X-Jira-API-Token: API token for authentication
+  // ==========================================================================
+
+  "name": "primrose-mcp-jira",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-12-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // ==========================================================================
+  // Environment Variables (server-wide configuration, not per-tenant)
+  // ==========================================================================
+  "vars": {
+    "CHARACTER_LIMIT": "50000",
+    "DEFAULT_PAGE_SIZE": "20",
+    "MAX_PAGE_SIZE": "100"
+  },
+
+  // ==========================================================================
+  // Multi-Tenant Authentication (via Request Headers)
+  // ==========================================================================
+  //
+  // Tenant credentials are passed via HTTP headers on each request:
+  //
+  // Required:
+  //   X-Jira-Domain: Jira Cloud domain (e.g., "mycompany" for mycompany.atlassian.net)
+  //   X-Jira-Email: User email for Basic Auth
+  //   X-Jira-API-Token: API token for Basic Auth
+  //
+  // Optional:
+  //   X-Jira-Access-Token: OAuth 2.0 access token (alternative to Basic Auth)
+
+  // ==========================================================================
+  // Development
+  // ==========================================================================
+  "dev": {
+    "port": 8787,
+    "local_protocol": "http"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}
